@@ -8,7 +8,7 @@
             class="img-fluid"
             :src="modalPhoto"
             alt="Large Res Product Photo"
-          >
+          />
         </div>
       </div>
     </article>
@@ -26,7 +26,9 @@
         :data-index="index"
       >
         <div class="col-1 m-auto">
-          <button class="btn btn-info" @click="$parent.$emit('add', item)">+</button>
+          <button class="btn btn-info" @click="$parent.$emit('add', item)">
+            +
+          </button>
         </div>
         <div class="col-2">
           <img
@@ -36,7 +38,7 @@
             :src="item.image"
             :alt="item.name"
             @click="$parent.$emit('setCurrentPhoto', item.image)"
-          >
+          />
         </div>
         <div class="col">
           <h3 class="text-info">{{ item.name }}</h3>
@@ -58,24 +60,24 @@ export default {
   components: { Price },
   props: ["products", "modalPhoto"],
   methods: {
-    beforeEnter: function(el) {
+    beforeEnter: function (el) {
       el.className = "d-none";
     },
-    enter: function(el) {
+    enter: function (el) {
       var delay = el.dataset.index * 100;
-      setTimeout(function() {
+      setTimeout(function () {
         el.className =
           "row d-flex mb-3 align-items-center animated fadeInRight";
       }, delay);
     },
-    leave: function(el) {
+    leave: function (el) {
       var delay = el.dataset.index * 100;
-      setTimeout(function() {
+      setTimeout(function () {
         el.className =
           "row d-flex mb-3 align-items-center animated fadeOutRight";
       }, delay);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

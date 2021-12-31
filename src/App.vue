@@ -1,82 +1,32 @@
 <template>
-  <div id="app" class="container mt-5">
-    <img
-      class="img-fluid m-auto d-block"
-      style="width: 300px"
-      src="images/binaryville.svg"
-      alt="BinaryVille Logo"
-    >
-    <router-view
-      :cart="cart"
-      :cartQty="cartQty"
-      :cartTotal="cartTotal"
-      :products="products"
-      :modalPhoto="modalPhoto"
-      @add="addItem"
-      @delete="deleteItem"
-      @setCurrentPhoto="setCurrentPhoto"
-    ></router-view>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 
-<script>
-export default {
-  name: "app",
-  data: function() {
-    return {
-      cart: [],
-      products: null,
-      modalPhoto: null
-    };
-  },
-  computed: {
-    cartTotal: function() {
-      let sum = 0;
-      for (let key in this.cart) {
-        sum = sum + this.cart[key].product.price * this.cart[key].qty;
-      }
-      return sum;
-    },
-    cartQty: function() {
-      let qty = 0;
-      for (let key in this.cart) {
-        qty = qty + this.cart[key].qty;
-      }
-      return qty;
-    }
-  },
-  methods: {
-    setCurrentPhoto: function(item) {
-      this.modalPhoto = item.replace("_tn", "");
-    },
-    deleteItem: function(id) {
-      if (this.cart[id].qty > 1) {
-        this.cart[id].qty--;
-      } else {
-        this.cart.splice(id, 1);
-      }
-    },
-    addItem: function(product) {
-      var whichProduct;
-      var existing = this.cart.filter(function(item, index) {
-        if (item.product.id == Number(product.id)) {
-          whichProduct = index;
-          return true;
-        } else {
-          return false;
-        }
-      });
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-      if (existing.length) {
-        this.cart[whichProduct].qty++;
-      } else {
-        this.cart.push({ product: product, qty: 1 });
-      }
-    }
-  },
-  mounted: function() {
-    const data = require("./inventory.json");
-    this.products = data;
-  }
-};
-</script>
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
