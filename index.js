@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 function createWindows() {
     let appWindow = new BrowserWindow({
@@ -15,16 +15,16 @@ function createWindows() {
 
     let aboutWindow = new BrowserWindow({
         width: 300,
-        height: 275,
+        height: 300,
         frame: false,
-        transparent: true
+        webPreferences: {
+            nodeIntegration: true
+        },
+        show: false
+
     });
 
     aboutWindow.loadFile('./about.html');
-
-    aboutWindow.on('closed', () => {
-        aboutWindow = null
-    });
 
     appWindow.once('ready-to-show', () => {
         appWindow.maximize();
@@ -32,12 +32,18 @@ function createWindows() {
 
         setTimeout(() => {
             aboutWindow.show();
-            setTimeout(() => {
-                aboutWindow.hide();
-            }, 5000);
         }, 1000);
 
     })
+
+    aboutWindow.on('closed', () => {
+        aboutWindow = null
+    });
+
+    ipcMain.on('closeInfoWindow', (event) => {
+        console.log("it is called");
+        aboutWindow.hide();
+    });
 }
 
 app.on('ready', createWindows);
