@@ -8,6 +8,14 @@ function createWindows() {
         minWidth: 300
     });
     appWindow.loadFile('./index.html');
+
+    appWindow.on('closed', ()=> {
+        appWindow = null
+    });
+
+    appWindow.once('ready-to-show', () => {
+        appWindow.show();
+    })
 }
 
 app.on('ready', createWindows);
