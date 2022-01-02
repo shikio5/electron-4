@@ -6,8 +6,10 @@
       :cartQty="cartQty"
       :cartTotal="cartTotal"
       :products="products"
+      :modalPhoto="modalPhoto"
       @add="addItem"
       @delete="deleteItem"
+      @setCurrentPhoto="setCurrentPhoto"
     ></router-view>
   </div>
 </template>
@@ -18,7 +20,8 @@ export default {
   data: function() {
     return {
       cart: [],
-      products: null
+      products: null,
+      modalPhoto: null
     };
   },
   computed: {
@@ -38,6 +41,9 @@ export default {
     }
   },
   methods: {
+    setCurrentPhoto: function(item){
+      this.modalPhoto = item.replace("_tn","")
+    },
     deleteItem: function(id) {
       if (this.cart[id].qty > 1) {
         this.cart[id].qty--;
