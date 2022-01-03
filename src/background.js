@@ -16,7 +16,16 @@ let win;
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, bypassCSP: true } }]);
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 600, icon: "icon.png" });
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: "icon.png",
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  });
   win.maximize();
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -53,7 +62,7 @@ app.on("activate", () => {
 
 const menuTemplate = [
   {
-    label: "BinaryVille Shop",
+    label: "Danny's menu Shop",
     submenu: [
       { role: "close" },
       {

@@ -7,10 +7,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "animate.css/animate.css";
+const { ipcRenderer } = require("electron");
 
 import {
   faShoppingCart,
-  faDollarSign
+  faDollarSign,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faShoppingCart, faDollarSign);
@@ -25,16 +26,26 @@ const router = new VueRouter({
   routes: [
     {
       path: "*",
-      component: Products
+      component: Products,
     },
     {
       path: "/checkout",
-      component: Checkout
-    }
-  ]
+      component: Checkout,
+    },
+  ],
 });
 
 new Vue({
-  render: h => h(App),
-  router
+  render: (h) => h(App),
+  router,
 }).$mount("#app");
+
+ipcRenderer.on("checkout", (event) => {
+  console.log(event);
+  router.push("/checkout");
+});
+
+ipcRenderer.on("shop", (event) => {
+  console.log(event);
+  router.push("/");
+});
